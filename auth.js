@@ -17,13 +17,17 @@ function loginUser(username, password) {
 
   if (storedUser.username === username && storedUser.password === password) {
     localStorage.setItem('dompetku_logged_in', 'true');
-    window.location.href = 'index.html'; // Pindah ke dashboard utama
+    
+    // --- SUDAH DIUBAH KE INDEX.HTML DI SINI ---
+    window.location.href = 'index.html'; 
+    
     return true;
   } else {
     alert('Username atau password salah!');
     return false;
   }
 }
+
 // Fungsi register user baru
 function registerUser(username, password) {
   if (!username || !password) {
@@ -37,6 +41,7 @@ function registerUser(username, password) {
   window.location.href = 'login.html'; // Arahkan ke halaman login
   return true;
 }
+
 // Fungsi logout user
 function logoutUser() {
   localStorage.removeItem('dompetku_logged_in');
