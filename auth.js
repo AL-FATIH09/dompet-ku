@@ -1,19 +1,44 @@
-// Fungsi untuk mengecek apakah user sudah login
+// Fungsi mengecek status login di setiap halaman dashboard
 function checkAuth() {
-    const isLoggedIn = localStorage.getItem('dompetku_logged_in');
-    
-    // Jika berada di halaman utama tapi belum login, tendang ke login.html
-    if (!isLoggedIn && window.location.pathname.includes('index.html')) {
-        window.location.href = 'login.html';
-    }
-    // Jika sudah login tapi iseng buka halaman login/register, lempar ke index.html
-    if (isLoggedIn && (window.location.pathname.includes('login.html') || window.location.pathname.includes('register.html'))) {
-        window.location.href = 'index.html';
-    }
+  if (localStorage.getItem('dompetku_logged_in') !== 'true') {
+    window.location.href = 'login.html';
+  }
 }
 
-// Fungsi untuk proses Logout
+// Fungsi login user
+function loginUser(username, password) {
+  // Ambil data user terdaftar dari localStorage
+  const storedUser = JSON.parse(localStorage.getItem('dompetku_user'));
+
+  if (!storedUser) {
+    alert('Akun tidak ditemukan! Silakan register terlebih dahulu.');
+    return false;
+  }
+
+  if (storedUser.username === username && storedUser.password === password) {
+    localStorage.setItem('dompetku_logged_in', 'true');
+    window.location.href = 'index.html'; // Pindah ke dashboard utama
+    return true;
+  } else {
+    alert('Username atau password salah!');
+    return false;
+  }
+}
+// Fungsi register user baru
+function registerUser(username, password) {
+  if (!username || !password) {
+    alert('Username dan password tidak boleh kosong!');
+    return false;
+  }
+  
+  const userData = { username: username, password: password };
+  localStorage.setItem('dompetku_user', JSON.stringify(userData));
+  alert('Registrasi Berhasil! Silakan masuk.');
+  window.location.href = 'login.html'; // Arahkan ke halaman login
+  return true;
+}
+// Fungsi logout user
 function logoutUser() {
-    localStorage.removeItem('dompetku_logged_in');
-    window.location.href = 'login.html';
+  localStorage.removeItem('dompetku_logged_in');
+  window.location.href = 'login.html';
 }
