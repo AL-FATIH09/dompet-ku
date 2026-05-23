@@ -1,5 +1,4 @@
 const CACHE_NAME = 'dompetku-cache-v1';
-
 // Daftarkan SEMUA file yang dibutuhkan aplikasi agar bisa tampil offline
 const assetsToCache = [
   './dompetku.html',
