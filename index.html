@@ -122,7 +122,7 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:r
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;max-width:480px;left:50%;transform:translateX(-50%)}
 .modal-overlay.open{opacity:1;pointer-events:all}
 .modal{background:var(--bg2);border-radius:24px 24px 0 0;padding:0 20px 36px;width:100%;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);max-height:90vh;overflow-y:auto}
-.modal-overlay.open .modal}
+.modal-overlay.open .modal { transform:translateY(0); } /* <--- PERBAIKAN DI SINI */
 .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 20px}
 .modal-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:20px}
 .type-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
@@ -319,6 +319,7 @@ function openModal(){
   document.getElementById('f-amount').focus();
 }
 function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('remove'); // diubah untuk kelancaran transisi browser
   document.getElementById('modal-overlay').classList.remove('open');
 }
 function closeModalOutside(e){
@@ -464,7 +465,6 @@ function renderStats(){
   `;
 }
 
-// UPDATE: Ditambahkan tombol Logout di halaman pengaturan
 function renderSettings(){
   const total=txs.length;
   const size=(JSON.stringify(txs).length/1024).toFixed(1);
