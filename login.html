@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Dompetku</title>
+    <style>
+        :root { --bg: #0f1117; --bg2: #171b24; --green: #00C896; --text: #f0f2f7; --text2: #8b92a5; --border: #2a3040; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .auth-card { background: var(--bg2); padding: 30px; border-radius: 16px; border: 1px solid var(--border); width: 100%; max-width: 360px; text-align: center; }
+        h2 span { color: var(--green); }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 5px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: var(--green); border: none; border-radius: 8px; color: #0f1117; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        a { color: var(--green); text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <h2>Dompet<span>ku</span></h2>
+    <p style="color: var(--text2); font-size: 14px; margin-bottom: 20px;">Silakan masuk ke akun Anda</p>
+    
+    <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-username" placeholder="Masukkan username">
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="Masukkan password">
+    </div>
+    <button onclick="handleLogin()">Masuk</button>
+    <p style="font-size: 14px; margin-top: 15px; color: var(--text2)">Belum punya akun? <a href="register.html">Daftar</a></p>
+</div>
+
+<script src="auth.js"></script>
+<script>
+    checkAuth();
+
+    function handleLogin() {
+        const u = document.getElementById('login-username').value.trim();
+        const p = document.getElementById('login-password').value;
+
+        const savedPassword = localStorage.getItem('user_' + u);
+
+        if (savedPassword && savedPassword === p) {
+            localStorage.setItem('dompetku_logged_in', u); // Set session token sederhana
+            window.location.href = 'index.html';
+        } else {
+            alert('Username atau Password salah!');
+        }
+    }
+</script>
+</body>
+</html>
