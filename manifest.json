@@ -1,4 +1,4 @@
-const assetsToCache = {
+{
   "name": "Dompetku",
   "short_name": "Dompetku",
   "start_url": "./dompetku.html",
