@@ -4,51 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Dompetku</title>
+    <script src="auth.js"></script>
     <style>
-        :root { --bg: #0f1117; --bg2: #171b24; --green: #00C896; --text: #f0f2f7; --text2: #8b92a5; --border: #2a3040; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .auth-card { background: var(--bg2); padding: 30px; border-radius: 16px; border: 1px solid var(--border); width: 100%; max-width: 360px; text-align: center; }
-        h2 span { color: var(--green); }
+        body {
+            background-color: #0f1117;
+            color: #f0f2f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .auth-container {
+            background: #171b24;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            border: 1px solid #2a3040;
+        }
+        h2 { color: #00C896; margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; text-align: left; }
-        label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 5px; text-transform: uppercase; }
-        input { width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: var(--green); border: none; border-radius: 8px; color: #0f1117; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        a { color: var(--green); text-decoration: none; font-size: 14px; }
+        label { display: block; font-size: 14px; margin-bottom: 5px; color: #8b92a5; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1.5px solid #2a3040;
+            background: #1e2330;
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus { border-color: #00C896; }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #00C896;
+            color: #0f1117;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .switch-mode {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #8b92a5;
+        }
+        .switch-mode a { color: #00C896; text-decoration: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="auth-card">
-    <h2>Dompet<span>ku</span></h2>
-    <p style="color: var(--text2); font-size: 14px; margin-bottom: 20px;">Silakan masuk ke akun Anda</p>
+<div class="auth-container" id="auth-box">
+    <h2 id="auth-title">Masuk Dompetku</h2>
     
     <div class="form-group">
         <label>Username</label>
-        <input type="text" id="login-username" placeholder="Masukkan username">
+        <input type="text" id="username" placeholder="Masukkan username">
     </div>
+    
     <div class="form-group">
         <label>Password</label>
-        <input type="password" id="login-password" placeholder="Masukkan password">
+        <input type="password" id="password" placeholder="Masukkan password">
     </div>
-    <button onclick="handleLogin()">Masuk</button>
-    <p style="font-size: 14px; margin-top: 15px; color: var(--text2)">Belum punya akun? <a href="register.html">Daftar</a></p>
+    
+    <button id="auth-btn" onclick="handleAuth()">Masuk</button>
+    
+    <div class="switch-mode" id="switch-text">
+        Belum punya akun? <a onclick="toggleMode(true)">Daftar sekarang</a>
+    </div>
 </div>
 
-<script src="auth.js"></script>
 <script>
-    checkAuth();
+    let isRegisterMode = false;
 
-    function handleLogin() {
-        const u = document.getElementById('login-username').value.trim();
-        const p = document.getElementById('login-password').value;
+    function toggleMode(toRegister) {
+        isRegisterMode = toRegister;
+        const title = document.getElementById('auth-title');
+        const btn = document.getElementById('auth-btn');
+        const switchText = document.getElementById('switch-text');
 
-        const savedPassword = localStorage.getItem('user_' + u);
-
-        if (savedPassword && savedPassword === p) {
-            localStorage.setItem('dompetku_logged_in', u); // Set session token sederhana
-            window.location.href = 'index.html';
+        if (isRegisterMode) {
+            title.textContent = 'Daftar Akun Baru';
+            btn.textContent = 'Daftar';
+            switchText.innerHTML = 'Sudah punya akun? <a onclick="toggleMode(false)">Login disini</a>';
         } else {
-            alert('Username atau Password salah!');
+            title.textContent = 'Masuk Dompetku';
+            btn.textContent = 'Masuk';
+            switchText.innerHTML = 'Belum punya akun? <a onclick="toggleMode(true)">Daftar sekarang</a>';
+        }
+    }
+
+    function handleAuth() {
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value;
+
+        if (isRegisterMode) {
+            registerUser(user, pass);
+        } else {
+            loginUser(user, pass);
         }
     }
 </script>
